@@ -1,12 +1,13 @@
-import { Container, Flex, Box, Heading, NavLink } from 'theme-ui'
+import { Container, Flex, Box, Heading, Text } from 'theme-ui'
+import Link from 'next/link'
 
-type Link = {
+export type NavBarLink = {
   text: string
   href: string
 }
 
 type NavBarProps = {
-  items: Link[]
+  items: NavBarLink[]
 }
 
 const NavBar = ({ items }: NavBarProps) => {
@@ -21,7 +22,7 @@ const NavBar = ({ items }: NavBarProps) => {
       }}
     >
       <Box>
-        <Heading>BRAND</Heading>
+        <Heading>Brand</Heading>
       </Box>
 
       <Flex
@@ -45,7 +46,9 @@ const NavBar = ({ items }: NavBarProps) => {
               padding: ['5px 10px', 10],
             }}
           >
-            <NavLink href={link.href}>{link.text}</NavLink>
+            <Link href={link.href}>
+              <Text sx={{ cursor: 'pointer' }}>{link.text}</Text>
+            </Link>
           </Box>
         ))}
       </Flex>

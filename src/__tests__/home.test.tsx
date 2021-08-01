@@ -1,4 +1,3 @@
-// import renderer from 'react-test-renderer'
 import { shallow } from 'enzyme'
 import Home from '../pages'
 import { NavBar } from '../shared/components/NavBar'
@@ -11,7 +10,7 @@ describe('Homepage test', () => {
     },
   ]
 
-  const homepage = shallow(<Home />)
+  const homepage = shallow(<Home description="A text" />)
   const navbar = <NavBar items={links} />
 
   it('homepage should render correctly', () => {

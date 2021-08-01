@@ -1,26 +1,24 @@
+import gql from 'graphql-tag'
+import { GetStaticProps } from 'next'
+import client from '../shared/libs/useApollo'
+
 import { Container, Heading } from 'theme-ui'
-import { NavBar } from '../shared/components/NavBar'
 
-const links = [
-  {
-    text: 'Início',
-    href: '/',
-  },
-  {
-    text: 'Posts',
-    href: '/posts',
-  },
-  {
-    text: 'Sobre',
-    href: '/sobre',
-  },
-]
+const GET_HOMEPAGE_DESCRIPTION = gql`
+  query GetHomePageDescription {
+    portfolio_homepage(order_by: { createdAt: asc }) {
+      description
+    }
+  }
+`
 
-export default function Home() {
+type HomeProps = {
+  description: string
+}
+
+export default function Home({ description }: HomeProps) {
   return (
     <>
-      <NavBar items={links} />
-
       <Container
         sx={{
           display: 'flex',
@@ -30,10 +28,21 @@ export default function Home() {
         }}
       >
         <Heading as="h1" sx={{ maxWidth: '50%', textAlign: 'center' }}>
-          Lorem ipsum is placeholder text commonly used in the graphic, print,
-          and publishing industries for previewing layouts and visual mockups.
+          {description}
         </Heading>
       </Container>
     </>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const homepage = await client.query({
+    query: GET_HOMEPAGE_DESCRIPTION,
+  })
+
+  return {
+    props: {
+      ...homepage.data.portfolio_homepage[0],
+    },
+  }
 }
